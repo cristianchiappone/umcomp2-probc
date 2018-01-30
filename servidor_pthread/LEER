@@ -1,0 +1,3 @@
+LUEGO DE COMPILAR, PARA EJECUTAR EL SERVIDOR:
+
+./ser_sock -p <puerto_deseado>
