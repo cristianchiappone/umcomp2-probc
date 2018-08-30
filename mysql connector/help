@@ -1,0 +1,5 @@
+tar -xzvf mysql-connector-c-6.1.11-linux-glibc2.12-x86_64.tar.gz 
+cd mysql-connector-c-6.1.11-linux-glibc2.12-x86_64
+sudo cp -r include/* /usr/include/.
+sudo cp -r lib/* /usr/lib/.
+
