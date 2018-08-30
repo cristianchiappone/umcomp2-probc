@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "contar.h": "c",
+        "*.tcc": "c",
+        "mysql_connect.h": "c"
+    }
+}
