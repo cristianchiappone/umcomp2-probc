@@ -6,7 +6,7 @@ TARGETS = test
 
 all: $(TARGETS)
 
-test: contar.h mysql_connect.h main.c mysql_connect.c contar.c 
+test: parsear.h arg.h mysql_connect.h main.c mysql_connect.c arg.c parsear.c 
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:

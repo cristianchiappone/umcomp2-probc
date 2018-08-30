@@ -1,6 +1,6 @@
-#include "contar.h"
+#include "parsear.h"
 
-int contar(int leido, char *buffer, char *delimitador)
+int parsear(int leido, char *buffer, char *delimitador)
 {
     int contador = 0;
     char *cadena, auxiliar[leido], *array_lineas[14];
@@ -10,7 +10,7 @@ int contar(int leido, char *buffer, char *delimitador)
     array_lineas[contador] = cadena;
     while (cadena != NULL)
     {
-        /* printf("Linea_%d en funcion contar: %s \n", contador + 1, array_lineas[contador]); */
+        /* printf("Linea_%d en funcion parsear: %s \n", contador + 1, array_lineas[contador]); */
         contador++;
         cadena = strtok(NULL, delimitador);
         array_lineas[contador] = cadena;
@@ -28,7 +28,7 @@ int contar(int leido, char *buffer, char *delimitador)
     for (int j = 0; j < 14; j++)
     {
         memset(query, 0, sizeof query);
-        str = "INSERT INTO test VALUES(NULL";
+        str = "INSERT INTO registros VALUES(NULL";
         strcpy(query, str);
         contador_2 = 0;
         strcpy(auxiliar, array_lineas[j]);
