@@ -6,8 +6,8 @@
 #include <sys/stat.h> // stat
 #include <sys/types.h> // stat
 #include <sys/mman.h> //mmap
-#include <my_global.h> 
-#include <mysql.h> //mysql
+#include <mysql/my_global.h> 
+#include <mysql/mysql.h> //mysql
 #include "mysql_connect.h" //mysql
 
 int parsear(int,char* ,char* );

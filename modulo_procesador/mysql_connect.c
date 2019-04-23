@@ -9,7 +9,7 @@ MYSQL *init_connection()
         exit(1);
     }
 
-    if (mysql_real_connect(con, "localhost", "root", "root", "compu2", 0, NULL, 0) == NULL)
+    if (!mysql_real_connect(con, "localhost", "root", "root", "test", 0, NULL, 0))
     {
         finish_with_error(con);
     }
