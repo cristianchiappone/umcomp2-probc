@@ -31,7 +31,9 @@ int service(int sdc) {
 	char *err_405 = "HTTP/1.1 405 METHOD NOT ALLOWED\nContent-type: text/html\nContent-Length: 23\n\n405 METHOD NOT ALLOWED"; 
 	char *err_500 = "HTTP/1.1 500 INTERNAL SERVER ERROR\nContent-type: text/html\nContent-Length: 25\n\n500 INTERNAL SERVER ERROR"; 
     	
-    leido = read(sdc, buff, sizeof buff);
+  if((leido = read(sdc, buff, sizeof buff)) == -1){
+        printf("error %s\n", strerror(errno));
+    }
 
 	printf("El cliente me escribio %s \n", buff);
 
