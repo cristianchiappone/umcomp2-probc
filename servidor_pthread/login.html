@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>
+        Trabajo Practico 4 - Computacion II
+    </title>
+</head>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+    integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<link rel="icon" type="image/jpeg" href="assets/favicon.png" />
+
+<body>
+    <header>
+        <section class="contenedor">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="nombre_web">TP4 - Computación II</div>
+                </div>
+            </div>
+        </section>
+    </header>
+    <h><b>Acceso administrador:</b></h>
+    <form action="/login.html" method="get"> 
+        <div class="form-group col-md-5">
+            <label for="exampleInputEmail1">Usuario</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Usuario">
+        </div>
+        <div class="form-group col-md-5">
+            <label for="exampleInputPassword1">Contraseña</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <b>TEST FILES</b>
+    <ul>
+        <li><a href="assets/test_files/test.jpg">JPG</a></li>
+        <li><a href="assets/test_files/test.png">PNG</a></li>
+        <li><a href="assets/test_files/test.pdf">PDF</a></li>
+        <li><a href="assets/test_files/test.gif">GIF</a></li>
+        <li><a href="login.html">LOGIN</a></li>
+    </ul>
+</body>
+
+</html>
+<style>
+    header {
+        background: url(assets/header.png);
+        color: hsl(0, 0%, 100%);
+        height: 40px;
+        margin: 0;
+        padding-top: 2px;
+    }
+
+    .contenedor {
+        width: 1100px;
+        margin: 7 auto;
+    }
+</style>

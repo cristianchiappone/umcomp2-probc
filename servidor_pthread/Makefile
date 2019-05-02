@@ -6,7 +6,7 @@ TARGETS = ser_sock
 
 all: $(TARGETS)
 
-ser_sock: server.c arg.c service.c 
+ser_sock: server.c arg.c service.c http_parser.c 
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
