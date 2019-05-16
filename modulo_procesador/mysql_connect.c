@@ -1,37 +1,28 @@
 #include "mysql_connect.h"
 
-MYSQL *init_connection()
-{
+MYSQL *init_connection() {
     MYSQL *con = mysql_init(NULL);
-    if (con == NULL)
-    {
+    if (con == NULL) {
         fprintf(stderr, "%s\n", mysql_error(con));
         exit(1);
     }
 
-    if (!mysql_real_connect(con, "localhost", "root", "root", "test", 0, NULL, 0))
-    {
+    if (mysql_real_connect(con, "localhost", "root", "root", "compu2", 0, NULL, 0) == NULL) {
         finish_with_error(con);
     }
     return con;
 }
 
-void finish_with_error(MYSQL *con)
-{
+void finish_with_error(MYSQL *con) {
     fprintf(stderr, "%s\n", mysql_error(con));
     close_connection(con);
     exit(1);
 }
 
-void close_connection(MYSQL *con)
-{
-    mysql_close(con);
-}
+void close_connection(MYSQL *con) { mysql_close(con); }
 
-void mysql_insert(MYSQL *con, char *query)
-{
-    if (mysql_query(con, query))
-    {
+void mysql_insert(MYSQL *con, char *query) {
+    if (mysql_query(con, query)) {
         finish_with_error(con);
     }
 }

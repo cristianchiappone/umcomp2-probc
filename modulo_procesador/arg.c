@@ -1,36 +1,46 @@
-#include <getopt.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "ctype.h"
 #include "arg.h"
+#include "ctype.h"
 
-char* get_opt(int argc, char **argv){
-     int iflag = 0;
-     char *ivalue = NULL;
-     int opt;
- 
-     opterr = 0;
- 
-     while ((opt = getopt (argc, argv, "i:")) != -1) {
-         switch(opt)
-         {
-             case 'i':
-                 iflag = 1;
-                 ivalue = optarg;
-                 break;
- 
-             case '?':
-                 if (optopt == 'i')
-                     fprintf (stderr, "La opcion -%o requiere un argumento\n", optopt);
-                 else if (isprint (optopt))//checkea que un caracter pueda ser impreso
-                     fprintf (stderr, "Opcion desconocida -%c.\n", optopt);
-                 break;
- 
-             default:
-                 abort ();
-         }
-     }
-      printf("iflag = %d, ivalue = %s\n", iflag, ivalue);
-      return ivalue;
-     //Fin de lectura de argumentos
+char **get_opt_pub(int argc, char **argv) {
+    static char *options[] = {"localhost", "test", "1883"};
+    int opt;
+
+    while ((opt = getopt(argc, argv, "h:t:p:")) != -1) {
+        switch (opt) {
+            case 'h':
+                options[0] = optarg;
+                break;
+
+            case 't':
+                options[1] = optarg;
+                break;
+
+            case 'p':
+                options[2] = optarg;
+                break;
+
+            default: /* '?' */
+                fprintf(stderr, "Usage: %s [-h host] [-t topic] [-p port]\n",argv[0]);
+                exit(EXIT_FAILURE);
+        }
+    }
+    return options;
+}
+
+char **get_opt_sub(int argc, char **argv) {
+    static char *options[] = {"/pax"};
+    int opt;
+
+    while ((opt = getopt(argc, argv, "q:")) != -1) {
+        switch (opt) {
+            case 'q':
+                options[0] = optarg;
+                break;
+
+            default: /* '?' */
+                fprintf(stderr, "Usage: %s [-q queue_name]\n", argv[0]);
+                exit(EXIT_FAILURE);
+        }
+    }
+    return options;
 }

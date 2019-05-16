@@ -2,6 +2,18 @@
     "files.associations": {
         "contar.h": "c",
         "*.tcc": "c",
-        "mysql_connect.h": "c"
+        "mysql_connect.h": "c",
+        "mqueue.h": "c",
+        "my_global.h": "c",
+        "my_byteorder.h": "c",
+        "mosquitto.h": "c",
+        "unistd.h": "c",
+        "queue.h": "c",
+        "wait.h": "c",
+        "arg.h": "c",
+        "ctype.h": "c",
+        "cerrno": "c",
+        "sstream": "c",
+        "types.h": "c"
     }
 }
