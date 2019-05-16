@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "arg.h"
+#include <ctype.h>
 
 int get_opt(int argc, char **argv){
     int pvalue;
