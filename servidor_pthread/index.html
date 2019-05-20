@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>
-		Trabajo Practico 4 - Computacion II
+		Proyecto Final - Computacion II
 	</title>
 </head>
 <!-- Bootstrap -->
@@ -15,32 +15,40 @@
 	<header>
 		<section class="contenedor">
 			<div class="row">
-				<div class="col-md-5">
-					<div class="nombre_web">TP4 - Computación II</div>
+				<div class="col-md-12">
+					<div>Proyecto Final - Computacion II</div>
 				</div>
 			</div>
 		</section>
 	</header>
-	<h><b>Consigna:</b></h>
-	<p>#El tp4 consiste en programar un servidor web.<br>#El servidor web tendrá que crear un proceso hijo para atender
-		un requerimiento del cliente, o sea, será un proceso por request. <br>#El servidor tendrá que manejar el método
-		GET. Si el cliente envia un requerimiento con otro método, el servidor tendrá que responder con el error HTTP
-		correspondiente. <br> #El servidor web tiene que manejar los mime types para los archivos: jpg, png, pdf, html y
-		gif. Si el formato del archivo es otro, tendrá que devolver el text/plain por defecto. <br> #El servidor web
-		tendrá que implementar los siguientes codes de HTTP en las respuestas: 200, 403, 404 y 500. <br> #El servidor
-		web podrá probarse con la aplicación ab(apache benchmark). Deberá aportar al menos 10.000 conexiones y 5
-		concurrentes.
-
-		<br>Prueba: <code>$ ab -n 10000 -c 5 http://localhost:8000/index.html</code>
-	</p>
-	<b>TEST FILES</b>
-	<ul>
-		<li><a href="assets/test_files/test.jpg">JPG</a></li>
-		<li><a href="assets/test_files/test.png">PNG</a></li>
-		<li><a href="assets/test_files/test.pdf">PDF</a></li>
-		<li><a href="assets/test_files/test.gif">GIF</a></li>
-		<li><a href="login.html">LOGIN</a></li>
-	</ul>
+	<div style="margin: 0 auto; width: 300px; height: 200px; margin-top:20px">
+		<div class="col-md-12" style="text-align: center">
+			<h><b>ACCESO ADMINISTRADOR</b></h>
+		</div>
+		<br>
+		<form method="POST">
+			<div class="form-group col-md-12">
+				<input type="text" class="form-control" placeholder="Usuario" name="usuario" required>
+			</div>
+			<div class="form-group col-md-12">
+				<input type="password" class="form-control" placeholder="Contraseña" name="password" required>
+			</div>
+			<div style="text-align: center">
+				<button type="submit" class="btn btn-primary">Ingresar</button>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<div class=col-md-12>
+			<b>Archivos de prueba</b>
+		</div>
+		<ul>
+			<li><a href="assets/test_files/test.jpg">JPG</a></li>
+			<li><a href="assets/test_files/test.png">PNG</a></li>
+			<li><a href="assets/test_files/test.pdf">PDF</a></li>
+			<li><a href="assets/test_files/test.gif">GIF</a></li>
+		</ul>
+	</div>
 </body>
 
 </html>
