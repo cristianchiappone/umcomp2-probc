@@ -8,18 +8,17 @@ mqd_t serverUp(void) {
     rc = mq_unlink(MQNAME);
     if (rc == -1) {
         perror("mq_unlink()");
-        return -1;
-    } else {
-        mqAttr.mq_maxmsg = 10;
-        mqAttr.mq_msgsize = 1024;
-        svrHndl = mq_open(MQNAME, O_RDWR | O_CREAT, S_IWUSR | S_IRUSR, &mqAttr);
-        if (svrHndl < 0) {
-            perror("mq_open()");
-            return -1;
-        }
-        printf("Servidor publicando en cola mqd_t -> %d.\n", svrHndl);
-        return svrHndl;
     }
+
+    mqAttr.mq_maxmsg = 10;
+    mqAttr.mq_msgsize = 1024;
+    svrHndl = mq_open(MQNAME, O_RDWR | O_CREAT, S_IWUSR | S_IRUSR, &mqAttr);
+    if (svrHndl < 0) {
+        perror("mq_open()");
+        return -1;
+    }
+    printf("Servidor publicando en cola mqd_t -> %d.\n", svrHndl);
+    return svrHndl;
 }
 
 mqd_t clientUp(char *queue_name) {
@@ -30,7 +29,7 @@ mqd_t clientUp(char *queue_name) {
         perror("mq_open()");
         exit(1);
     }
-    printf("Ciente leyendo en cola mqd_t -> %d con nombre: \"%s\".\n", cliHndl,queue_name);
+    // printf("Ciente leyendo en cola mqd_t -> %d con nombre: \"%s\".\n", cliHndl,queue_name);
     return cliHndl;
 }
 

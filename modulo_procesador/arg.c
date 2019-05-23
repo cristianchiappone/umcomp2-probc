@@ -2,9 +2,13 @@
 #include "ctype.h"
 
 char **get_opt_pub(int argc, char **argv) {
-    static char *options[] = {"localhost", "test", "1883"};
+    // usar malloc
+    static char *options[] = {"localhost", "$shared/sensors/test", "1883"};
     int opt;
-
+    static char shared_topic[100];
+    memset(shared_topic, 0, sizeof(shared_topic));
+    char *shared = "$shared/sensors/";
+    strncpy(shared_topic, shared, strlen(shared));
     while ((opt = getopt(argc, argv, "h:t:p:")) != -1) {
         switch (opt) {
             case 'h':
@@ -12,7 +16,8 @@ char **get_opt_pub(int argc, char **argv) {
                 break;
 
             case 't':
-                options[1] = optarg;
+                strcat(shared_topic, optarg);
+                options[1] = shared_topic;
                 break;
 
             case 'p':
@@ -20,10 +25,12 @@ char **get_opt_pub(int argc, char **argv) {
                 break;
 
             default: /* '?' */
-                fprintf(stderr, "Usage: %s [-h host] [-t topic] [-p port]\n",argv[0]);
+                fprintf(stderr, "Usage: %s [-h host] [-t topic] [-p port]\n",
+                        argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
+
     return options;
 }
 

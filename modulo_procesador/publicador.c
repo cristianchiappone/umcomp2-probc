@@ -24,7 +24,6 @@ int main(int argc, char **argv) {
     struct mosquitto_message *msg;
     char **options = get_opt_pub(argc, argv);
 
-    mosquitto_lib_init();
     printf("Proceso - PID(%d) -> Suscrito a Host:%s - Topico:%s - Puerto:%d\n",
            getpid(), options[0], options[1], atoi(options[2]));
 
@@ -48,20 +47,36 @@ int main(int argc, char **argv) {
             exit(0);
             break;
         default:
-            while (true) {
-                rc = mosquitto_subscribe_simple(
-                    &msg, 1, true, options[1], 0, options[0], atoi(options[2]),
-                    NULL, 60, true, NULL, NULL, NULL, NULL);
-
-                if (rc) {
-                    printf("Error: %s\n", mosquitto_strerror(rc));
-                    mosquitto_lib_cleanup();
-                    return rc;
-                }
-                create_child(&msg, svrHndl);
-            }
-            mosquitto_lib_cleanup();
             break;
     }
+    for (int i = 0; i < 4; i++) {
+        switch (fork()) {
+            case 0:
+                mosquitto_lib_init();
+                while (true) {
+                    rc = mosquitto_subscribe_simple(
+                        &msg, 1, true, options[1], 0, options[0],
+                        atoi(options[2]), NULL, 60, true, NULL, NULL, NULL,
+                        NULL);
+
+                    if (rc) {
+                        printf("Error: %s\n", mosquitto_strerror(rc));
+                        mosquitto_lib_cleanup();
+                        return rc;
+                    }
+                    create_child(&msg, svrHndl);
+                }
+                mosquitto_lib_cleanup();
+                exit(0);
+                break;
+            case -1:
+                perror("fork()");
+                return -1;
+                break;
+            default:
+                break;
+        }
+    }
+    wait(0);
     return 0;
 }
