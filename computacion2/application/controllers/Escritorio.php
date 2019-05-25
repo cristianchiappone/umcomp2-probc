@@ -20,6 +20,6 @@ class Escritorio extends MY_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load_template('welcome_message');
 	}
 }
