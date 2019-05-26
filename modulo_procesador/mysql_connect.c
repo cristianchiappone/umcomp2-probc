@@ -7,7 +7,7 @@ MYSQL *init_connection() {
         exit(1);
     }
 
-    if (mysql_real_connect(con, "localhost", "root", "root", "compu2", 0, NULL, 0) == NULL) {
+    if (mysql_real_connect(con, "sql175.main-hosting.eu", "u716960574_comp2", "Rk4Q7pZUC5m9", "u716960574_comp2", 0, NULL, 0) == NULL) {
         finish_with_error(con);
     }
     return con;
