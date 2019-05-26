@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 char** get_opt_pub(int argc, char** argv);
 char** get_opt_sub(int argc, char** argv);
