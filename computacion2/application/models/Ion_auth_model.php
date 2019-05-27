@@ -828,7 +828,7 @@ class Ion_auth_model extends CI_Model {
 
         $this->trigger_events('extra_where');
 
-        $query = $this->db->select($this->identity_column . ', email, id, password, active, last_login')
+        $query = $this->db->select($this->identity_column . ', email, id, password, active, last_login, first_name, last_name')
                 ->where($this->identity_column, $identity)
                 ->limit(1)
                 ->order_by('id', 'desc')
@@ -1386,6 +1386,32 @@ class Ion_auth_model extends CI_Model {
                         ->get($this->tables['users_groups']);
     }
 
+    	/**
+	 * get_users_groups_asociative
+	 *
+	 * @param int|string|bool $id
+	 *
+	 * @return CI_DB_result
+	 * @author Ben Edmunds
+	 */
+	public function get_users_groups_asociative($id = FALSE) {
+		$this->trigger_events('get_users_group');
+
+// if no id was passed use the current users id
+		$id || $id = $this->session->userdata('user_id');
+
+		$result = $this->db->select($this->tables['users_groups'] . '.' . $this->join['groups'] . ' as id, ' . $this->tables['groups'] . '.name, ' . $this->tables['groups'] . '.description')
+				->where($this->tables['users_groups'] . '.' . $this->join['users'], $id)
+				->join($this->tables['groups'], $this->tables['users_groups'] . '.' . $this->join['groups'] . '=' . $this->tables['groups'] . '.id')
+				->order_by('groups.id')
+				->get($this->tables['users_groups'])->result();
+		$array_user_groups = array();
+		foreach ($result as $user_groups) {
+			$array_user_groups[$user_groups->name] = $user_groups;
+		}
+		return $array_user_groups;
+	}
+
     /**
      * @param int|string|array $check_group group(s) to check
      * @param int|string|bool  $id          user id
@@ -1745,9 +1771,12 @@ class Ion_auth_model extends CI_Model {
             'identity' => $user->{$this->identity_column},
             $this->identity_column => $user->{$this->identity_column},
             'email' => $user->email,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
             'user_id' => $user->id, //everyone likes to overwrite id so we'll use user_id
             'old_last_login' => $user->last_login,
             'last_check' => time(),
+            'user_groups' => $this->get_users_groups_asociative($user->id)
         ];
 
         $this->session->set_userdata($session_data);
@@ -1829,7 +1858,7 @@ class Ion_auth_model extends CI_Model {
 
         // get the user with the selector
         $this->trigger_events('extra_where');
-        $query = $this->db->select($this->identity_column . ', id, email, remember_code, last_login')
+        $query = $this->db->select($this->identity_column . ', id, email, remember_code, last_login, last_name, first_name')
                 ->where('remember_selector', $token->selector)
                 ->where('active', 1)
                 ->limit(1)
