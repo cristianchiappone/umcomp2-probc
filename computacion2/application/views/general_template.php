@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 	<head>
-		<base href="<?php echo base_url(); ?>" />
+	<base href="<?php echo base_url(); ?>" />
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title><?php echo empty($title) ? TITLE : $title; ?></title>
@@ -70,7 +70,7 @@
 			var CI = {'base_url': '<?php echo base_url(); ?>'};
 		</script>
 	</head>
-	<body class="hold-transition skin-red sidebar-mini <?php echo empty($menu_collapse) ? '' : 'sidebar-collapse'; ?>">
+	<body class="hold-transition sidebar-mini <?php echo empty($menu_collapse) ? '' : 'sidebar-collapse'; ?>">
 		<div class="wrapper">
 			<?php echo $header; ?>
 			<?php echo $sidebar; ?>
@@ -85,6 +85,7 @@
 		</div>
 		<!-- Bootstrap 4 -->
 		<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="plugins/moment/moment-with-locales.min.js"></script>
 		<script>
 			moment.updateLocale('es', {
 				months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
@@ -97,8 +98,6 @@
 		<!-- datepicker -->
 		<script src="plugins/datepicker/bootstrap-datepicker.js"></script><!-- AdminLTE App -->
 		<script src="dist/js/adminlte.js"></script>
-		<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-		<script src="dist/js/pages/dashboard.js"></script>
 		<!-- AdminLTE for demo purposes -->
 		<script src="dist/js/demo.js"></script>
 		<?php

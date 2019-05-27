@@ -502,17 +502,16 @@ class MY_Controller extends CI_Controller {
 	protected function load_template($view = 'general_content', $view_data = NULL, $data = array()) {
 		$view_data['controlador'] = $this->router->fetch_class();
 		$view_data['metodo'] = $this->router->fetch_method();
-		// $usuario = array(
-		// 	'nombre' => $this->session->userdata('nombre'),
-		// 	'apellido' => $this->session->userdata('apellido'),
-		// 	'ultimo_login' => $this->session->userdata('old_last_login'),
-		// 	'login_actual' => $this->session->userdata('last_login'),
-		// 	'user_groups' => $this->session->userdata('user_groups'),
-		// 	'group_selected' => $this->user_groups_asociative($this->session->userdata('user_groups'))
-		// 		);
+		$usuario = array(
+			'first_name' => $this->session->userdata('first_name'),
+			'last_name' => $this->session->userdata('last_name'),
+			'last_login' => $this->session->userdata('last_login'),
+			'group_selected' => $this->user_groups_asociative($this->session->userdata('user_groups')),
+			'user_groups' => $this->session->userdata('user_groups'),
+		);
 		$data['menu_collapse'] = $this->session->userdata('menu_collapse');
-		$data['header'] = $this->load->view('general_header', '', TRUE);
-		$data['sidebar'] = $this->load->view('general_sidebar', '', TRUE);
+		$data['header'] = $this->load->view('general_header', $usuario, TRUE);
+		$data['sidebar'] = $this->load->view('general_sidebar', $usuario, TRUE);
 		$data['content'] = $this->load->view($view, $view_data, TRUE);
 		$data['footer'] = $this->load->view('general_footer', '', TRUE);
 		$this->load->view('general_template', $data);

@@ -23,13 +23,16 @@ if (!function_exists('in_groups')) {
 
 if (!function_exists('load_permisos_nav')) {
 
-	function load_permisos_nav($userdata_groups, $route) {
+	function load_permisos_nav($userdata_groups, $route, $alertas = NULL) {
 		foreach ($userdata_groups as $user_group) {
 			$grupos[] = $user_group->name;
 		}
-		$li_class = array('usuarios' => '', 'oferta' => '', 'sucursal' => '', 'producto' => '', 'pedido' => '', 'fidelidad' => '', 'cupon' => '');
 		$li_class[$route] = 'active';
 		$nav = '';
+		
+		if (in_groups($grupos, array('admin'))) {
+			$nav .= " <li class='nav-item'><a href='usuarios/listar' class='nav-link'><i class='fa fa-users nav-icon'></i> <p>Usuarios</p></a></li>";
+		}
 		return $nav;
 	}
 }
