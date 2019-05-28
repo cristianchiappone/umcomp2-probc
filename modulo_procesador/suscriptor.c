@@ -10,7 +10,9 @@ void create_child(struct mosquitto_message **message) {
     msg = *message;
     switch (fork()) {
         case 0:
-            printf("payload->%s\n", (char *)msg->payload);
+            if (validar_payload((char *)msg->payload)) {
+                printf("");
+            }
             mosquitto_message_free(&msg);
             exit(0);
         case -1:
@@ -25,8 +27,10 @@ int main(int argc, char **argv) {
     int rc;
     struct mosquitto_message *msg;
     char **options = get_opt_sub(argc, argv);
-    printf("Proceso suscriptor - PID(%d) -> Suscrito a Host:%s - Topico:%s - Puerto:%d\n",
-           getpid(), options[0], options[1], atoi(options[2]));
+    printf(
+        "Proceso suscriptor - PID(%d) -> Suscrito a Host:%s - Topico:%s - "
+        "Puerto:%d\n",
+        getpid(), options[0], options[1], atoi(options[2]));
     for (int i = 0; i < 4; i++) {
         switch (fork()) {
             case 0:
