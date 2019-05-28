@@ -1,0 +1,9 @@
+{
+	"device_id":"1",
+	"sensors":{
+		"temperature":"22",
+		"pressure":"10",
+		"humidity":"90",
+		"dateTime":"2019-05-28 10:30:00"
+	}
+}
