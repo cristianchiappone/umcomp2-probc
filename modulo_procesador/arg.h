@@ -8,8 +8,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <ctype.h>
 
 char** get_opt_pub(int argc, char** argv);
 char** get_opt_sub(int argc, char** argv);
+int get_opt_server(int argc, char **argv);
 
 #endif
