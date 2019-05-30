@@ -5,7 +5,6 @@
 
 void create_child(struct mosquitto_message **message) {
     struct mosquitto_message *msg;
-    int rc;
     if (!message || !*message) return;
     msg = *message;
     switch (fork()) {
