@@ -103,6 +103,8 @@ class Dispositivo extends MY_Controller {
         $data['fields_m'] = $this->build_fields($model->fields);
         $data['dispositivo'] = $dispositivo;
         $data['txt_btn'] = '';
+        $data['error'] = $this->session->flashdata('error');
+        $data['message'] = $this->session->flashdata('message');
         $data['btn_color'] = 'btn-primary';
         $data['title'] = TITLE . ' - Ver Dispositivo';
         $this->load_template('dispositivo/ver_dispositivo', $data);
@@ -234,8 +236,10 @@ class Dispositivo extends MY_Controller {
         if (isset($_POST) && !empty($_POST)) {
             $host = "localhost";
             $port = 9000;
+
             if ($socket = socket_create(AF_INET, SOCK_STREAM, 0)) {
-                if (socket_connect($socket, $host, $port)) {
+                $success = @socket_connect($socket, $host, $port);
+                if ($success) {
                     if (socket_write($socket, $this->input->post('mensaje'), strlen($this->input->post('mensaje')))) {
                         socket_close($socket);
                         $this->session->set_flashdata('message', 'Mensaje enviado');
@@ -245,8 +249,6 @@ class Dispositivo extends MY_Controller {
                 } else {
                     $this->session->set_flashdata('error', 'Error al conectar al socket');
                 }
-            } else {
-                $this->session->set_flashdata('error', 'Error al crear el socket');
             }
             redirect("dispositivo/ver/$dispositivo->id", 'refresh');
         }
