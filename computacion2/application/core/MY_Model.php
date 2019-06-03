@@ -2,8 +2,8 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class MY_Model extends CI_Model
-{
+class MY_Model extends CI_Model {
+
     protected $error;
     protected $row_id;
     protected $msg;
@@ -14,10 +14,10 @@ class MY_Model extends CI_Model
     protected $unicos;
     protected $id_autoincrement = true;
     protected $auditoria = false;
+    protected $socket_log = true;
     protected $default_join = array();
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -58,19 +58,18 @@ class MY_Model extends CI_Model
      *
      * @return array Arreglo de objetos de acuerdo a las opciones especificadas
      */
-    public function get($options = array())
-    {
+    public function get($options = array()) {
         if (isset($options['select'])) {
             $this->db->select($options['select']);
         } else {
             if (isset($options['join'])) {
                 if (isset($options['from'])) {
                     foreach ($this->columnas as $columna) {
-                        $this->db->select($options['from'].'.'.$columna);
+                        $this->db->select($options['from'] . '.' . $columna);
                     }
                 } else {
                     foreach ($this->columnas as $columna) {
-                        $this->db->select($this->table_name.'.'.$columna);
+                        $this->db->select($this->table_name . '.' . $columna);
                     }
                 }
 
@@ -125,14 +124,14 @@ class MY_Model extends CI_Model
         }
 
         foreach ($this->columnas as $columna) {
-            $columna_mayor = $columna.' >';
-            $columna_menor = $columna.' <';
-            $columna_distinto = $columna.' !=';
-            $columna_mayor_igual = $columna.' >=';
-            $columna_menor_igual = $columna.' <=';
-            $columna_like_after = $columna.' like after';
-            $columna_like_before = $columna.' like before';
-            $columna_like_both = $columna.' like both';
+            $columna_mayor = $columna . ' >';
+            $columna_menor = $columna . ' <';
+            $columna_distinto = $columna . ' !=';
+            $columna_mayor_igual = $columna . ' >=';
+            $columna_menor_igual = $columna . ' <=';
+            $columna_like_after = $columna . ' like after';
+            $columna_like_before = $columna . ' like before';
+            $columna_like_both = $columna . ' like both';
             if (isset($options[$columna])) {
                 $this->db->where("$this->table_name.$columna", $options[$columna]);
             }
@@ -228,8 +227,7 @@ class MY_Model extends CI_Model
      *
      * @return objeto
      */
-    public function get_one($id, $joins = array())
-    {
+    public function get_one($id, $joins = array()) {
         $options[$this->id_name] = $id;
         if (empty($joins)) {
             $options['join'] = $this->default_join;
@@ -252,8 +250,7 @@ class MY_Model extends CI_Model
      *
      * @return array insert_id()
      */
-    public function create($options = array(), $trans_enabled = true)
-    {
+    public function create($options = array(), $trans_enabled = true) {
         if (!$this->_required($this->requeridos, $options)) {
             $this->_set_error('Verifique que los campos requeridos contengan datos');
 
@@ -274,6 +271,9 @@ class MY_Model extends CI_Model
         if ($trans_enabled) {
             $this->db->trans_start();
         }
+        if ($this->socket_log) {
+            $this->send_log($this->table_name, $options, $this->session->userdata('user_id'), 'C');
+        }
         if ($this->auditoria) {
             $this->db->set('audi_user', $this->session->userdata('user_id'));
             $this->db->set('audi_fecha', date_format(new DateTime(), 'Y/m/d H:i:s'));
@@ -290,7 +290,7 @@ class MY_Model extends CI_Model
         }
 
         if ($row_id_new > -1) {
-            $this->_set_msg('Registro de '.$this->msg_name.' creado');
+            $this->_set_msg('Registro de ' . $this->msg_name . ' creado');
             $this->_set_row_id($row_id_new);
             if ($trans_enabled) {
                 $this->db->trans_complete();
@@ -298,7 +298,7 @@ class MY_Model extends CI_Model
 
             return true;
         } else {
-            $this->_set_error('No se ha podido crear el registro de '.$this->msg_name);
+            $this->_set_error('No se ha podido crear el registro de ' . $this->msg_name);
             if ($trans_enabled) {
                 $this->db->trans_complete();
             }
@@ -314,8 +314,7 @@ class MY_Model extends CI_Model
      *
      * @return int affected_rows()
      */
-    public function update($options = array(), $trans_enabled = true)
-    {
+    public function update($options = array(), $trans_enabled = true) {
         if (!$this->_required(array($this->id_name), $options)) {
             $this->_set_error('Verifique que los campos requeridos contengan datos');
 
@@ -338,6 +337,9 @@ class MY_Model extends CI_Model
         if ($trans_enabled) {
             $this->db->trans_start();
         }
+        if ($this->socket_log) {
+            $this->send_log($this->table_name, $options, $this->session->userdata('user_id'), 'U');
+        }
         if ($this->auditoria) {
             if (isset($this->aud_table_name)) {
                 $this->db->query("INSERT INTO $this->aud_table_name SELECT NULL as audi_id, $this->table_name.* FROM $this->table_name WHERE {$this->id_name}={$options[$this->id_name]}");
@@ -352,14 +354,14 @@ class MY_Model extends CI_Model
 
         $rows = $this->db->affected_rows();
         if ($rows > -1) {
-            $this->_set_msg('Registro de '.$this->msg_name.' modificado');
+            $this->_set_msg('Registro de ' . $this->msg_name . ' modificado');
             if ($trans_enabled) {
                 $this->db->trans_complete();
             }
 
             return true;
         } else {
-            $this->_set_error('No se ha podido modificar el registro de '.$this->msg_name);
+            $this->_set_error('No se ha podido modificar el registro de ' . $this->msg_name);
             if ($trans_enabled) {
                 $this->db->trans_complete();
             }
@@ -373,8 +375,7 @@ class MY_Model extends CI_Model
      *
      * @param array $options
      */
-    public function delete($options = array(), $trans_enabled = true)
-    {
+    public function delete($options = array(), $trans_enabled = true) {
         if (!$this->_required(array($this->id_name), $options)) {
             $this->_set_error('Verifique que los campos requeridos contengan datos');
 
@@ -386,6 +387,9 @@ class MY_Model extends CI_Model
 
             if ($trans_enabled) {
                 $this->db->trans_start();
+            }
+            if ($this->socket_log) {
+                $this->send_log($this->table_name, $options, $this->session->userdata('user_id'), 'D');
             }
             if ($this->auditoria) {
                 if (isset($this->aud_table_name)) {
@@ -406,14 +410,14 @@ class MY_Model extends CI_Model
             }
             $this->db->where($this->id_name, $options[$this->id_name]);
             if ($this->db->delete($this->table_name)) {
-                $this->_set_msg('Registro de '.$this->msg_name.' eliminado');
+                $this->_set_msg('Registro de ' . $this->msg_name . ' eliminado');
                 if ($trans_enabled) {
                     $this->db->trans_complete();
                 }
 
                 return true;
             } else {
-                $this->_set_error('No se ha podido eliminar el registro de '.$this->msg_name);
+                $this->_set_error('No se ha podido eliminar el registro de ' . $this->msg_name);
                 if ($trans_enabled) {
                     $this->db->trans_complete();
                 }
@@ -430,8 +434,7 @@ class MY_Model extends CI_Model
      *
      * @return int count_all_results()
      */
-    public function count_rows()
-    {
+    public function count_rows() {
         return $this->db->count_all_results($this->table_name);
     }
 
@@ -442,14 +445,13 @@ class MY_Model extends CI_Model
      *
      * @return int count_all_results()
      */
-    public function count_rows_where($options = array())
-    {
+    public function count_rows_where($options = array()) {
         foreach ($this->columnas as $columna) {
-            $columna_mayor = $columna.' >';
-            $columna_menor = $columna.' <';
-            $columna_distinto = $columna.' !=';
-            $columna_mayor_igual = $columna.' >=';
-            $columna_menor_igual = $columna.' <=';
+            $columna_mayor = $columna . ' >';
+            $columna_menor = $columna . ' <';
+            $columna_distinto = $columna . ' !=';
+            $columna_mayor_igual = $columna . ' >=';
+            $columna_menor_igual = $columna . ' <=';
             if (isset($options[$columna])) {
                 $this->db->where($columna, $options[$columna]);
             }
@@ -482,8 +484,7 @@ class MY_Model extends CI_Model
      *
      * @return bool
      */
-    protected function _required($required, $data)
-    {
+    protected function _required($required, $data) {
         foreach ($required as $field) {
             if (!isset($data[$field])) {
                 return false;
@@ -501,18 +502,17 @@ class MY_Model extends CI_Model
      *
      * @return bool
      */
-    protected function _unique($unique, $data, $id = -1, $id_name = 'id')
-    {
+    protected function _unique($unique, $data, $id = -1, $id_name = 'id') {
         if (empty($unique)) {
             return true;
         }
-        // Verificar primero si en los ifs compuestos de $unique hay columnas que no vengan en data (para updates)
+// Verificar primero si en los ifs compuestos de $unique hay columnas que no vengan en data (para updates)
         $columnas_faltantes = array();
         if ($id > 0) {
             foreach ($unique as $field) {
                 if (is_array($field)) {
                     $faltantes = array_diff_key(array_flip($field), $data);
-                    // Si hay columnas faltantes del unique en el update y no son todas las columnas del unique, agregarlas
+// Si hay columnas faltantes del unique en el update y no son todas las columnas del unique, agregarlas
                     if (count($faltantes) > 0 && count($faltantes) != count($field)) {
                         $columnas_faltantes = array_merge($columnas_faltantes, $faltantes);
                     }
@@ -520,9 +520,9 @@ class MY_Model extends CI_Model
             }
             if (!empty($columnas_faltantes)) {
                 $data_faltante = $this->db->select(array_flip($columnas_faltantes))
-                        ->from($this->table_name)
-                        ->where($this->id_name, $id)
-                        ->get()->row_array();
+                                ->from($this->table_name)
+                                ->where($this->id_name, $id)
+                                ->get()->row_array();
                 $data = array_merge($data, $data_faltante);
             }
         }
@@ -556,7 +556,7 @@ class MY_Model extends CI_Model
             }
         }
         $this->db->group_end();
-        $this->db->where($id_name.' !=', $id);
+        $this->db->where($id_name . ' !=', $id);
         if ($this->db->count_all_results($this->table_name) > 0) {
             return false;
         }
@@ -571,8 +571,7 @@ class MY_Model extends CI_Model
      *
      * @return bool
      */
-    protected function _can_delete($delete_id)
-    {
+    protected function _can_delete($delete_id) {
         return true;
     }
 
@@ -581,8 +580,7 @@ class MY_Model extends CI_Model
      *
      * @return void
      */
-    protected function _set_error($error)
-    {
+    protected function _set_error($error) {
         $this->error = $error;
     }
 
@@ -591,8 +589,7 @@ class MY_Model extends CI_Model
      *
      * @return string
      */
-    public function get_error()
-    {
+    public function get_error() {
         return $this->error;
     }
 
@@ -601,8 +598,7 @@ class MY_Model extends CI_Model
      *
      * @return void
      */
-    protected function _set_msg($msg)
-    {
+    protected function _set_msg($msg) {
         $this->msg = $msg;
     }
 
@@ -611,8 +607,7 @@ class MY_Model extends CI_Model
      *
      * @return string
      */
-    public function get_msg()
-    {
+    public function get_msg() {
         return $this->msg;
     }
 
@@ -621,8 +616,7 @@ class MY_Model extends CI_Model
      *
      * @return void
      */
-    protected function _set_row_id($id)
-    {
+    protected function _set_row_id($id) {
         $this->row_id = $id;
     }
 
@@ -631,10 +625,32 @@ class MY_Model extends CI_Model
      *
      * @return int
      */
-    public function get_row_id()
-    {
+    public function get_row_id() {
         return $this->row_id;
     }
+
+    private function send_log($tabla, $columnas, $usuario_id, $accion) {
+        $host = "localhost";
+        $port = 9000;
+        $log = "$usuario_id $accion $tabla " . implode(',', $columnas);
+        lm($log);
+
+        if ($socket = socket_create(AF_INET, SOCK_STREAM, 0)) {
+            $success = @socket_connect($socket, $host, $port);
+            if ($success) {
+                if (socket_write($socket, $log, strlen($log))) {
+                    socket_close($socket);
+                    $this->session->set_flashdata('message', 'Mensaje enviado');
+                } else {
+                    $this->session->set_flashdata('error', 'Error al enviar el mensaje');
+                }
+            } else {
+                $this->session->set_flashdata('error', 'Error al conectar al socket');
+            }
+        }
+    }
+
 }
+
 /* End of file MY_Model.php */
 /* Location: ./application/core/MY_Model.php */
