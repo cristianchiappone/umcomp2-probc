@@ -11,6 +11,16 @@ if (!function_exists('lm'))
 	}
 }
 
+if (!function_exists('pm')) {
+
+	function pm($message) {
+		echo '<pre>';
+		print_r($message);
+		echo '</pre>';
+	}
+}
+
+
 if (!function_exists('auto_ver'))
 {
 

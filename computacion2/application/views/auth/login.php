@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<base href="<?= base_url(); ?>" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><?= TITLE; ?> | Log in</title>
@@ -12,9 +13,9 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">
+  <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,7 +28,6 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Login</p>
-
       <?php echo form_open("auth/login");?>
         <div class="input-group mb-3">
           <input type="text" id="identity" name="identity" class="form-control" placeholder="Email">
@@ -52,20 +52,18 @@
         <a href="#">Olvidaste tu contraseña?</a>
       </p>
       <p class="mb-0">
-        <a href="register.html" class="text-center">Registrate!</a>
+        <a href="#" class="text-center">Registrate!</a>
       </p>
     </div>
     <!-- /.login-card-body -->
   </div>
 </div>
-<!-- /.login-box -->
-
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- iCheck -->
-<script src="../../plugins/iCheck/icheck.min.js"></script>
+<script src="plugins/iCheck/icheck.min.js"></script>
 <script>
   $(function () {
     $('input').iCheck({

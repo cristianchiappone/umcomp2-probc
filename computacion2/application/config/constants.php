@@ -91,5 +91,5 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 */
 define('TITLE', 'Computación II');
 define('TITLE_SM', 'CII');
-define('BASE_URL', 'http://localhost/computacion2/');
+define('BASE_URL', 'http://umiot/computacion2/');
 define('SIS_AUTO_VER_PATH', '/home/cchiappone/www/computacion2/');

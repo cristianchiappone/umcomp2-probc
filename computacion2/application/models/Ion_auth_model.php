@@ -1386,31 +1386,31 @@ class Ion_auth_model extends CI_Model {
                         ->get($this->tables['users_groups']);
     }
 
-    	/**
-	 * get_users_groups_asociative
-	 *
-	 * @param int|string|bool $id
-	 *
-	 * @return CI_DB_result
-	 * @author Ben Edmunds
-	 */
-	public function get_users_groups_asociative($id = FALSE) {
-		$this->trigger_events('get_users_group');
+    /**
+     * get_users_groups_asociative
+     *
+     * @param int|string|bool $id
+     *
+     * @return CI_DB_result
+     * @author Ben Edmunds
+     */
+    public function get_users_groups_asociative($id = FALSE) {
+        $this->trigger_events('get_users_group');
 
 // if no id was passed use the current users id
-		$id || $id = $this->session->userdata('user_id');
+        $id || $id = $this->session->userdata('user_id');
 
-		$result = $this->db->select($this->tables['users_groups'] . '.' . $this->join['groups'] . ' as id, ' . $this->tables['groups'] . '.name, ' . $this->tables['groups'] . '.description')
-				->where($this->tables['users_groups'] . '.' . $this->join['users'], $id)
-				->join($this->tables['groups'], $this->tables['users_groups'] . '.' . $this->join['groups'] . '=' . $this->tables['groups'] . '.id')
-				->order_by('groups.id')
-				->get($this->tables['users_groups'])->result();
-		$array_user_groups = array();
-		foreach ($result as $user_groups) {
-			$array_user_groups[$user_groups->name] = $user_groups;
-		}
-		return $array_user_groups;
-	}
+        $result = $this->db->select($this->tables['users_groups'] . '.' . $this->join['groups'] . ' as id, ' . $this->tables['groups'] . '.name, ' . $this->tables['groups'] . '.description')
+                        ->where($this->tables['users_groups'] . '.' . $this->join['users'], $id)
+                        ->join($this->tables['groups'], $this->tables['users_groups'] . '.' . $this->join['groups'] . '=' . $this->tables['groups'] . '.id')
+                        ->order_by('groups.id')
+                        ->get($this->tables['users_groups'])->result();
+        $array_user_groups = array();
+        foreach ($result as $user_groups) {
+            $array_user_groups[$user_groups->name] = $user_groups;
+        }
+        return $array_user_groups;
+    }
 
     /**
      * @param int|string|array $check_group group(s) to check
