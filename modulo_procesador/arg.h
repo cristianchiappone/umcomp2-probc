@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <ctype.h>
+#define shared_topic_default "$shared/sensors/umcomp2"
 
 char** get_opt_pub(int argc, char** argv);
 char** get_opt_sub(int argc, char** argv);
