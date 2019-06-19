@@ -9,21 +9,24 @@ void create_child(struct mosquitto_message **message, char *topic,char* device_i
     int rc;
     if (!message || !*message) return;
     msg = *message;
-    bool default_topic =
-        (strcmp(topic, shared_topic_default) == 0) ? true : false;
+    bool default_topic = (strcmp(topic, shared_topic_default) == 0) ? true : false;
     char *local_topic = "interno";
     switch (fork()) {
         case 0:
-            if (validar_dispositivo((char *)msg->payload) && default_topic) {
-                rc = mqtt_send((char *)msg->payload, local_topic, "localhost");
-                if (rc) {
-                    printf("Error: %s\n", mosquitto_strerror(rc));
+            if(default_topic){
+                if (validar_dispositivo((char *)msg->payload)) {
+                    rc = mqtt_send((char *)msg->payload, local_topic, "localhost");
+                    if (rc) {
+                        printf("Error: %s\n", mosquitto_strerror(rc));
+                    }
                 }
-            } else if (validar_dispositivo_generico((char *)msg->payload,device_id)) {
-                strcat(local_topic, topic);
-                rc = mqtt_send((char *)msg->payload, local_topic, "localhost");
-                if (rc) {
-                    printf("Error: %s\n", mosquitto_strerror(rc));
+            } else {
+                if (validar_dispositivo_generico((char *)msg->payload,device_id)) {
+                // strcat(local_topic, topic);
+                // rc = mqtt_send((char *)msg->payload, local_topic, "localhost");
+                // if (rc) {
+                //     printf("Error: %s\n", mosquitto_strerror(rc));
+                // }
                 }
             }
             mosquitto_message_free(&msg);
@@ -42,9 +45,8 @@ int main(int argc, char **argv) {
     char **options = get_opt_pub(argc, argv);
 
     printf(
-        "Proceso Interface - PID(%d) -> Suscrito a Host:%s - Topico:%s - "
-        "Puerto:%d\n",
-        getpid(), options[0], options[1], atoi(options[2]));
+        "Proceso Interface - PID(%d) -> Suscrito a Host:%s - Topico:%s - Puerto:%d - User:%s - Dispositivo_id:%s\n",
+        getpid(), options[0], options[1], atoi(options[2]),options[3],options[5]);
 
     char *host = options[0];
     char *topic = options[1];
@@ -60,27 +62,26 @@ int main(int argc, char **argv) {
 
     if (strcmp(topic, shared_topic_default) == 0) {
         child_count = child_count_default;
+        char *argv_list[] = {"./suscriptor", "-h", "localhost", "-t", "interno","p","1883",NULL};
+        switch (fork()) {
+            case -1:
+                perror("fork()");
+                return -1;
+                break;
+            case 0:
+                if (execv("suscriptor", argv_list) < 0) {
+                    perror("execv()");
+                    return -1;
+                }
+                exit(0);
+                break;
+            default:
+                break;
+        }
     } else {
         child_count = 1;
     }
 
-    char *argv_list[] = {"./suscriptor", "-h", "localhost", "-t",
-                         "interno",      "p",  "1883",      NULL};
-    switch (fork()) {
-        case -1:
-            perror("fork()");
-            return -1;
-            break;
-        case 0:
-            if (execv("suscriptor", argv_list) < 0) {
-                perror("execv()");
-                return -1;
-            }
-            exit(0);
-            break;
-        default:
-            break;
-    }
     for (int i = 0; i < child_count; i++) {
         switch (fork()) {
             case 0:
