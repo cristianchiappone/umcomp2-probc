@@ -633,7 +633,6 @@ class MY_Model extends CI_Model {
         $host = "localhost";
         $port = 9000;
         $log = "$usuario_id $accion $tabla " . implode(',', $columnas);
-        lm($log);
 
         if ($socket = socket_create(AF_INET, SOCK_STREAM, 0)) {
             $success = @socket_connect($socket, $host, $port);
