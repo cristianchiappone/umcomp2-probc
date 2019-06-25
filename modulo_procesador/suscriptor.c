@@ -10,7 +10,10 @@ void create_child(struct mosquitto_message **message) {
     switch (fork()) {
         case 0:
             if (validar_payload((char *)msg->payload)) {
-                printf("");
+                rc = mqtt_send((char *)msg->payload, "interface_php", "localhost");
+                if (rc) {
+                    printf("Error: %s\n", mosquitto_strerror(rc));
+                }
             }
             mosquitto_message_free(&msg);
             exit(0);
