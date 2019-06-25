@@ -22,11 +22,10 @@ void create_child(struct mosquitto_message **message, char *topic,char* device_i
                 }
             } else {
                 if (validar_dispositivo_generico((char *)msg->payload,device_id)) {
-                // strcat(local_topic, topic);
-                // rc = mqtt_send((char *)msg->payload, local_topic, "localhost");
-                // if (rc) {
-                //     printf("Error: %s\n", mosquitto_strerror(rc));
-                // }
+                    rc = mqtt_send((char *)msg->payload, "interface_php", "localhost");
+                    if (rc) {
+                        printf("Error: %s\n", mosquitto_strerror(rc));
+                    }
                 }
             }
             mosquitto_message_free(&msg);
