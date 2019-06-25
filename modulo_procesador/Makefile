@@ -10,7 +10,7 @@ TARGETS = test
 interface: interface.c arg.c validar.c cJSON.c mysql_connect.c publicador.c
 	$(CC) -I./lib $(CFLAGS) -o $@ $^ $(LDLIBS)
 
-suscriptor: suscriptor.c arg.c validar.c cJSON.c mysql_connect.c
+suscriptor: suscriptor.c arg.c validar.c cJSON.c mysql_connect.c publicador.c
 	$(CC) -I./lib $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 servidor:server.c arg.c service.c publicador.c

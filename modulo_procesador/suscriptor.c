@@ -1,5 +1,6 @@
 #include "arg.h"
 #include "mosquitto.h"
+#include "publicador.h"
 #include "mysql_connect.h"
 #include "validar.h"
 
@@ -7,6 +8,7 @@ void create_child(struct mosquitto_message **message) {
     struct mosquitto_message *msg;
     if (!message || !*message) return;
     msg = *message;
+    int rc;
     switch (fork()) {
         case 0:
             if (validar_payload((char *)msg->payload)) {
