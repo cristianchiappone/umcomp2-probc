@@ -51,11 +51,11 @@ class Tipo_medicion extends MY_Controller {
                 ->from('tipo_medicion')
                 ->add_column('color_linea', '<span class="fa fa-square" style="color: $1"></span>', 'color_linea');
 
-        $this->datatables->add_column('edit', ''
-                . '<a href="tipo_medicion/modal_ver/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal"  class="btn btn-xs btn-default" title="Ver"><i class="fa fa-search"></i></a> '
-                . '<a href="tipo_medicion/modal_editar/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-xs btn-warning" title="Editar"><i class="fa fa-pencil"></i></a> '
-                . '<a href="tipo_medicion/modal_baja/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-xs btn-danger" title="dar de baja"><i class="fa fa-ban"></i></a>'
-                . '', 'id');
+        $this->datatables->add_column('edit', '<div class="btn-group">'
+                . '<a href="tipo_medicion/modal_ver/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal"  class="btn btn-sm btn-default" title="Ver"><i class="fa fa-search"></i></a> '
+                . '<a href="tipo_medicion/modal_editar/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-sm btn-warning" title="Editar"><i class="fa fa-pencil"></i></a> '
+                . '<a href="tipo_medicion/modal_baja/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-sm btn-danger" title="dar de baja"><i class="fa fa-ban"></i></a>'
+                . '</div>', 'id');
 
         echo $this->datatables->generate();
     }

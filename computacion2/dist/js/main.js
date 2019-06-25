@@ -7,10 +7,10 @@ function agregar_filtros(id, table, columns) {
 	$('#' + id + ' tfoot th').each(function(i) {
 		var title = $('#' + id + ' thead th').eq(i).text();
 		if (title !== '') {
-			$(this).html('<input class="form-control input-xs" style="width: 100%;" type="text" placeholder="' + title + '" value="' + table.column(i).search() + '"/>');
+			$(this).html('<input class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" style="width: 100%;" type="text" placeholder="' + title + '" value="' + table.column(i).search() + '"/>');
 		}
 	});
-	$('#' + id + ' tfoot th').eq(columns).html('<button class="btn btn-xs btn-default" onclick="limpiar_filtro(\'' + id + '\');" title="Limpiar filtros"><i class="fa fa-eraser"></i> Filtros</button>');
+	$('#' + id + ' tfoot th').eq(columns).html('<button class="btn btn-sm btn-default" onclick="limpiar_filtro(\'' + id + '\');" title="Limpiar filtros"><i class="fa fa-eraser"></i> Filtros</button>');
 	table.columns().every(function() {
 		var column = this;
 		$('input', table.table().footer().children[0].children[this[0][0]]).on('change keypress', function(e) {

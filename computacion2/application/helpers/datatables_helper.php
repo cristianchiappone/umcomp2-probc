@@ -185,7 +185,7 @@ if (!function_exists('buildHTML'))
 
 	function buildHTML($tableData)
 	{
-		$tableHTML = '<table id="' . $tableData['table_id'] . '" class="table table-hover table-bordered table-condensed dt-responsive">'; // nowrap
+		$tableHTML = '<table id="' . $tableData['table_id'] . '" class="table table-hover table-bordered table-sm dt-responsive">'; // nowrap
 		$tableHTML .= '<thead>';
 		$tableHTML .= '<tr>';
 		if (isset($tableData['columns']))

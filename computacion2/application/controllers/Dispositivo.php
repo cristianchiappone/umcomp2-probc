@@ -54,8 +54,8 @@ class Dispositivo extends MY_Controller {
 
         $this->datatables->add_column('edit', ''
                 . '<div class="btn-group" role="group">'
-                . '<a class="btn btn-xs btn-default" href="dispositivo/ver/$1" title="Ver"><i class="fa fa-search"></i> Ver</a>'
-                . '<button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
+                . '<a class="btn btn-sm btn-default" href="dispositivo/ver/$1" title="Ver"><i class="fa fa-search"></i> Ver</a>'
+                . '<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
                 . '<ul class="dropdown-menu dropdown-menu-right">'
                 . '<li><a class="dropdown-item" href="dispositivo/modal_editar/$1"data-remote="false" data-toggle="modal" data-target="#remote_modal" title="Editar"><i class="fa fa-pencil"></i> Editar</a></li>'
                 . '<li><a class="dropdown-item" href="dispositivo/modal_baja/$1"data-remote="false" data-toggle="modal" data-target="#remote_modal" title="Dar de baja"><i class="fa fa-remove"></i> Dar de baja</a></li>'

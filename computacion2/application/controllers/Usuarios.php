@@ -59,11 +59,11 @@ class Usuarios extends MY_Controller
             ->join('users_groups', 'users_groups.user_id = users.id')
             ->join('groups', 'users_groups.group_id = groups.id')
             ->where('groups.name', $users_type);
-        $this->datatables->add_column('edit', ''
-            .'<a href="usuarios/modal_ver/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal"  class="btn btn-xs btn-default" title="Ver"><i class="fa fa-search"></i></a> '
-            .'<a href="usuarios/modal_editar/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-xs btn-warning" title="Editar"><i class="fa fa-pencil"></i></a> '
-            .'<a href="usuarios/modal_baja/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-xs btn-danger" title="dar de baja"><i class="fa fa-ban"></i></a>'
-            .'', 'id');
+        $this->datatables->add_column('edit', '<div class="btn-group">'
+            .'<a href="usuarios/modal_ver/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal"  class="btn btn-sm btn-default" title="Ver"><i class="fa fa-search"></i></a> '
+            .'<a href="usuarios/modal_editar/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-sm btn-warning" title="Editar"><i class="fa fa-pencil"></i></a> '
+            .'<a href="usuarios/modal_baja/$1" data-remote="false" data-toggle="modal" data-target="#remote_modal" class="btn btn-sm btn-danger" title="dar de baja"><i class="fa fa-ban"></i></a>'
+            .'</div>', 'id');
 
         echo $this->datatables->generate();
     }
