@@ -8,17 +8,24 @@ struct Response {
     char fields[2];
 } Resp;
 
-void parser_log(int sdc, char *buff) {
+# define max 50
+
+void parser_log(int sdc, char *buff, char logs) {
     char *last_token;
 
     char copy[300], copy2[300];
     char path[7];
+    int front,rear,reply;
+    front = rear = -1;
 
     memset(copy, 0, sizeof copy);
     memset(copy2, 0, sizeof copy2);
+
     memset(path, 0, sizeof path);
     strcpy(copy, buff);
     strcpy(copy2, copy);
+
+    reply = insq(logs, &rear, copy2);
 
     last_token = strtok(copy, " ");
     strcpy(Resp.usuario_id, last_token);
@@ -39,7 +46,6 @@ void parser_log(int sdc, char *buff) {
         perror("Open: ");
     }
     strcat(copy2, "\n\r");
-    write(1, copy2, sizeof copy2);
     int escrito = write(log, copy2, sizeof copy2);
     if (escrito < 0) {
         perror("Write");
@@ -52,9 +58,8 @@ void parser_log(int sdc, char *buff) {
     printf("#Valores: %s \n\t", Resp.valores);
     printf("-----------------------\n");
 
-    if(close(log) < 0){
+    if (close(log) < 0) {
         perror("Close");
     }
     close(sdc);
-    pthread_exit(NULL);
 }

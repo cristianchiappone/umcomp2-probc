@@ -4,7 +4,7 @@ const char *err_500 =
     "HTTP/1.1 500 INTERNAL SERVER ERROR\nContent-type: "
     "text/html\nContent-Length: 25\n\n500 INTERNAL SERVER ERROR";
 
-int service(int sdc) {
+int service(int sdc, char logs) {
     char buff[2048];
     int leido;
     memset(buff, 0, sizeof buff);
@@ -15,10 +15,9 @@ int service(int sdc) {
         case -1:
             printf("error \n");
             close(sdc);
-            pthread_exit(NULL);
             break;
         default:
-            parser_log(sdc, buff);
+            parser_log(sdc, buff, logs);
             break;
     }
 
