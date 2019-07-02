@@ -9,6 +9,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-int service(int sdc);
+int service(int sdc, char logs);
 
 #endif

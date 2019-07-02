@@ -12,5 +12,5 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-void parser_log(int, char *);
+void parser_log(int, char *, char);
 #endif
